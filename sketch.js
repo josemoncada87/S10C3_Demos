@@ -5,6 +5,8 @@ let cuadro4 = new Elemento(200,200,0,255,255);
 
 function setup() {
   createCanvas(400, 400);
+
+  
 }
 
 function draw() {
