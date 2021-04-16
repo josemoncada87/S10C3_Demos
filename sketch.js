@@ -1,33 +1,48 @@
-let cuadro1 = new Elemento(100,100,255,0,0);
-let cuadro2 = new Elemento(200,100,255,255,0);
-let cuadro3 = new Elemento(100,200,255,0,255);
-let cuadro4 = new Elemento(200,200,0,255,255);
+let cuadros = [];
+
+let bolitaA = new Bola(100, 300, 255, 0, 0);
+let ref;
 
 function setup() {
   createCanvas(400, 400);
-
-  
+  cuadros.push(new Elemento(100, 100, 255, 0, 0));
+  cuadros.push(new Elemento(200, 100, 255, 255, 0));
+  cuadros.push(new Elemento(100, 200, 255, 0, 255));
+  cuadros.push(new Elemento(200, 200, 0, 255, 255));
+  ref = undefined;
 }
 
 function draw() {
   background(220);
-  cuadro1.display();
-  cuadro2.display();
-  cuadro3.display();
-  cuadro4.display();
+  for (let index = 0; index < cuadros.length; index++) {
+    cuadros[index].display();
+    if(cuadros[index].validadateEnterZone(bolitaA.getX(), bolitaA.getY())){
+      cuadros[index].changeFillColor(bolitaA.getR(),bolitaA.getG(),bolitaA.getB());
+    }else{
+      cuadros[index].resetColor();
+    }
+  }
+  bolitaA.display();
 }
 
 function mousePressed() {
-  if(cuadro1.validadateClick(mouseX, mouseY)){
-    cuadro1.changeType();
+  for (let index = 0; index < cuadros.length; index++) {
+    if (cuadros[index].validadateClick(mouseX, mouseY)) {
+      cuadros[index].changeType();
+    }
   }
-  if(cuadro2.validadateClick(mouseX, mouseY)){
-    cuadro2.changeType();
+
+  if(bolitaA.validadateClick(mouseX, mouseY)){
+    ref = bolitaA;
   }
-  if(cuadro3.validadateClick(mouseX, mouseY)){
-    cuadro3.changeType();
-  }
-  if(cuadro4.validadateClick(mouseX, mouseY)){
-    cuadro4.changeType();
-  }
+}
+
+function mouseDragged() {
+  if(ref!==undefined){
+    ref.move(mouseX, mouseY);
+  }  
+}
+
+function mouseReleased(){
+  ref = undefined;  
 }
